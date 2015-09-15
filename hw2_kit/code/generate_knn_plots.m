@@ -7,7 +7,7 @@ load('../data/breast-cancer-data-fixed.mat');
 
 training_size = 400;
 
-%{
+
 %% 2.1
 answers{1} = 'This is where your answer to 2.1 should go. Just as one long string in a cell array';
 
@@ -69,13 +69,16 @@ figure(3)
 errorbar(x, y, e);
 xlabel('n folds')
 ylabel('error')
-title('average in-fold error')
+title('average in-fold error (original)')
 
 y_noisy = mean(nfold_noisy_errs);
 e_noisy = std(nfold_noisy_errs);
 
 figure(4)
 errorbar(x, y_noisy, e_noisy);
+xlabel('n folds')
+ylabel('error')
+title('average in-fold error (noisy)')
 
 % Along with nfold_errs, also plot errorbar for test error. This will 
 % serve as measure of performance for different nfold-crossvalidation.
@@ -92,7 +95,7 @@ knn_test_noisy_errs = zeros(100,8);
 ker_test_errs = zeros(100,8);
 ker_test_noisy_errs = zeros(100,8);
 
-%}
+
 
 for i = 1:100
     ind_training = (randperm(length(X)) <= training_size*ones(1,length(X)));
@@ -146,27 +149,51 @@ e_ker_test_noisy = std(ker_test_noisy_errs);
 
 figure(5) %knn X-validation
 errorbar(K, y_knn_tenfold, e_knn_tenfold);
+xlabel('N')
+ylabel('error')
+title('K nearest neighbor cross-validation error (original)')
 
 figure(6) %knn test
 errorbar(K, y_knn_test, e_knn_test);
+xlabel('N')
+ylabel('error')
+title('K nearest neighbor test error (original)')
 
 figure(7) %ker X-validation
 errorbar(sigma, y_ker_tenfold, e_ker_tenfold);
+xlabel('sigma')
+ylabel('error')
+title('Kernal regression cross-validation error (original)')
 
 figure(8) %ker test
 errorbar(sigma, y_ker_test, e_ker_test);
+xlabel('sigma')
+ylabel('error')
+title('Kernal regression test error (original)')
 
 figure(9) %knn X-validation noisy
 errorbar(K, y_knn_tenfold_noisy, e_knn_tenfold_noisy);
+xlabel('N')
+ylabel('error')
+title('K nearest neighbor cross-validation error (noisy)')
 
 figure(10) %knn test noisy
 errorbar(K, y_knn_test_noisy, e_knn_test_noisy);
+xlabel('N')
+ylabel('error')
+title('K nearest neighbor test error (noisy)')
 
 figure(11) %ker X-validation noisy
 errorbar(sigma, y_ker_tenfold_noisy, e_ker_tenfold_noisy);
+xlabel('sigma')
+ylabel('error')
+title('Kernal regression cross-validation error (noisy)')
 
 figure(12) %ker test
 errorbar(sigma, y_ker_test_noisy, e_ker_test_noisy);
+xlabel('sigma')
+ylabel('error')
+title('Kernal regression test error (noisy)')
 
 
 % To add labels to the graph, use xlabel('X axis label') and ylabel
