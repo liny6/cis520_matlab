@@ -66,7 +66,7 @@ if numTestPoints == 1 % if only 1 point, squeeze converts to col vector
     distMat = distMat';
 end
 
-[sorted nnMat] = sort(distMat, 2);
+[sorted, nnMat] = sort(distMat, 2);
 
 nnMat = nnMat(:,1:K);
 

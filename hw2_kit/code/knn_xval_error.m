@@ -16,7 +16,7 @@ function [error] = knn_xval_error(K, X, Y, part, distFunc)
 %   MAKE_XVAL_PARTITION, KNN_TEST
 
 % FILL IN YOUR CODE HERE
-
+N = max(part);
 
 if nargin<5
     distFunc = 'l2';
@@ -26,14 +26,16 @@ folds = max(part);
 errors = zeros(folds, 1);
 
 for i = 1:folds
+    
     trainPoints = X(part ~= i, :);
     trainLabels = Y(part ~= i);
     testPoints = X(part == i, :);
     actualTestLabels = Y(part == i);
+    S_i = length(actualTestLabels);
     predictedTestLabels = knn_test(K, trainPoints, trainLabels, testPoints, distFunc);
     %make binary classification
     predictedTestLabels = sign(predictedTestLabels);
-    errors(i) = sum(predictedTestLabels ~= actualTestLabels);
+    errors(i) = sum(predictedTestLabels ~= actualTestLabels)/S_i;
 end
 
-error = mean(errors);
+error = sum(errors)/N;

@@ -68,7 +68,7 @@ end
 node.terminal = false;
 
 % Choose a feature to split on using information gain.
-[node.fidx node.fval max_ig] = dt_choose_feature(X, Y, Xrange, colidx);
+[node.fidx, node.fval, max_ig] = dt_choose_feature(X, Y, Xrange, colidx);
 
 % Remove this feature from future consideration.
 colidx(colidx==node.fidx) = [];

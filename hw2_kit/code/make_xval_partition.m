@@ -19,4 +19,4 @@ if leftover ~= 0
     parts = [parts; 1:leftover];
 end
 
-part = parts(randperm(n));
+part = parts(randperm(n))';

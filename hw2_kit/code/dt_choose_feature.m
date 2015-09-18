@@ -44,10 +44,10 @@ for i = colidx
         (1-px).*binary_entropy(sum(y_given_notx)./sum(~split_f));
     
     % Choose split with best IG, and record the value split on.
-    [ig(i) best_split] = max(H-cond_H);
+    [ig(i), best_split] = max(H-cond_H);
     split_vals(i) = r(best_split);
 end
 
 % Choose feature with best split.
-[max_ig fidx] = max(ig);
+[max_ig, fidx] = max(ig);
 val = split_vals(fidx);

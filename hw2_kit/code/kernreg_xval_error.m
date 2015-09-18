@@ -17,6 +17,8 @@ function [error] = kernreg_xval_error(sigma, X, Y, part, distFunc)
 
 % FILL IN YOUR CODE HERE
 
+N = max(part);
+
 if nargin<5
     distFunc = 'l2';
 end
@@ -29,10 +31,11 @@ for i = 1:folds
     trainLabels = Y(part ~= i);
     testPoints = X(part == i, :);
     actualTestLabels = Y(part == i);
+    S_i = length(actualTestLabels);
     predictedTestLabels = kernreg_test(sigma, trainPoints, trainLabels, testPoints, distFunc);
     %make binary classification
     predictedTestLabels = sign(predictedTestLabels);
-    errors(i) = sum(predictedTestLabels ~= actualTestLabels);
+    errors(i) = sum(predictedTestLabels ~= actualTestLabels)/S_i;
 end
 
-error = mean(errors);
+error = sum(errors)/N;

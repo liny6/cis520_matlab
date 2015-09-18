@@ -6,6 +6,7 @@
 load('../data/breast-cancer-data-fixed.mat');
 
 training_size = 400;
+testing_size = length(X) - training_size;
 
 
 %% 2.1
@@ -17,6 +18,9 @@ answers{1} = 'This is where your answer to 2.1 should go. Just as one long strin
 %  nfold_errs(i,j) = nfold error with n=j of i'th repeat
 nfold_errs = zeros(100, 4);
 nfold_noisy_errs = zeros(100, 4);
+%nfold_testing_errs = zero(100, 4);
+%nfold_testing_noisy_errs = zero(100, 4);
+
 K = 1;
 
 for i = 1:100
@@ -38,6 +42,11 @@ for i = 1:100
         nfold_errs(i, j) = knn_xval_error(K, X_training, Y_training, part);
         nfold_noisy_errs(i, j) = knn_xval_error(K, X_noisy_training, Y_training, part);
         %this part finds test error
+        
+%        Y_predicted = knn_test(K, X_training(part<n_folds), Y_training(part<n_folds), X_testing);
+ %       Y_predicted_noisy = knn_test(K, X_noisy_training(part<n_folds), Y_training(part<n_folds), X_noisy_testing);
+       % nfold_testing_errs(i, j) = sum(sign(Y_testing) == sign(Y_predicted));
+       % nfold_testing_noisy_errs(i, j) = sum(sign(Y_testing) == sign(Y_predicted_noisy));
         
     end
 end
@@ -114,17 +123,17 @@ for i = 1:100
         knn_tenfold_noisy_errs(i,j) = knn_xval_error(K(j), X_noisy_training, Y_training, part); 
         
         knn_test_no_match = (sign(knn_test(K(j), X_training, Y_training, X_testing)) ~= sign(Y_testing));
-        knn_test_errs(i, j) = sum(knn_test_no_match);
+        knn_test_errs(i, j) = sum(knn_test_no_match)/testing_size;
         knn_test_noisy_no_match = (sign(knn_test(K(j), X_noisy_training, Y_training, X_testing)) ~= sign(Y_testing));
-        knn_test_noisy_errs(i, j) = sum(knn_test_noisy_no_match);
+        knn_test_noisy_errs(i, j) = sum(knn_test_noisy_no_match)/testing_size;
         
         ker_tenfold_errs(i, j) = kernreg_xval_error(K(j), X_training, Y_training, part);
         ker_tenfold_noisy_errs(i, j) = kernreg_xval_error(K(j), X_noisy_training, Y_training, part);
         
         ker_test_no_match = (sign(kernreg_test(K(j), X_training, Y_training, X_testing)) ~= sign(Y_testing));
-        ker_test_errs(i, j) = sum(ker_test_no_match);
+        ker_test_errs(i, j) = sum(ker_test_no_match)/testing_size;
         ker_test_noisy_no_match = (sign(kernreg_test(K(j), X_noisy_training, Y_training, X_testing)) ~= sign(Y_testing));
-        ker_test_noisy_errs(i, j) = sum(ker_test_no_match);
+        ker_test_noisy_errs(i, j) = sum(ker_test_no_match)/testing_size;
     end
     
 end
